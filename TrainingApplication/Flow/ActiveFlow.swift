@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ActiveFlow: View {
     struct Dependencies {
+        let exercises: [Exercies]
         let onNextScreen: () -> Void
     }
 
@@ -17,6 +18,7 @@ struct ActiveFlow: View {
     var body: some View {
         ActiveView(
             viewModel: ActiveViewModel(
+                exercises: dependencies.exercises,
                 onFinish: dependencies.onNextScreen
             )
         )

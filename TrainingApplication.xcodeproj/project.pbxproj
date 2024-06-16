@@ -56,7 +56,7 @@
 		B1AB67DB2C16512A00866FD3 /* ExercisesListRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AB67DA2C16512A00866FD3 /* ExercisesListRowViewModel.swift */; };
 		B1B8F2F32C1E298400C22D6D /* ActiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B8F2F22C1E298400C22D6D /* ActiveViewModel.swift */; };
 		B1F506E12C19BBAF000A8DE8 /* ActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F506E02C19BBAF000A8DE8 /* ActiveView.swift */; };
-		B1F506E32C19C864000A8DE8 /* NextButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F506E22C19C864000A8DE8 /* NextButtonView.swift */; };
+		B1F506E32C19C864000A8DE8 /* NextExerciesInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F506E22C19C864000A8DE8 /* NextExerciesInformationView.swift */; };
 		B1F506E52C19CD6D000A8DE8 /* StopActiveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F506E42C19CD6D000A8DE8 /* StopActiveButton.swift */; };
 		B1F506E92C19FCAE000A8DE8 /* CustomRectangleModifires.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F506E82C19FCAE000A8DE8 /* CustomRectangleModifires.swift */; };
 		B1F506ED2C1A0D1E000A8DE8 /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F506EC2C1A0D1E000A8DE8 /* ResultView.swift */; };
@@ -116,7 +116,7 @@
 		B1AB67DA2C16512A00866FD3 /* ExercisesListRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesListRowViewModel.swift; sourceTree = "<group>"; };
 		B1B8F2F22C1E298400C22D6D /* ActiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveViewModel.swift; sourceTree = "<group>"; };
 		B1F506E02C19BBAF000A8DE8 /* ActiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveView.swift; sourceTree = "<group>"; };
-		B1F506E22C19C864000A8DE8 /* NextButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextButtonView.swift; sourceTree = "<group>"; };
+		B1F506E22C19C864000A8DE8 /* NextExerciesInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextExerciesInformationView.swift; sourceTree = "<group>"; };
 		B1F506E42C19CD6D000A8DE8 /* StopActiveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StopActiveButton.swift; path = TrainingApplication/UI/Components/ActivViewsButtons/StopActiveButton.swift; sourceTree = SOURCE_ROOT; };
 		B1F506E82C19FCAE000A8DE8 /* CustomRectangleModifires.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRectangleModifires.swift; sourceTree = "<group>"; };
 		B1F506EC2C1A0D1E000A8DE8 /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
@@ -361,7 +361,7 @@
 		B1F506E62C19CDAA000A8DE8 /* ActivViewsButtons */ = {
 			isa = PBXGroup;
 			children = (
-				B1F506E22C19C864000A8DE8 /* NextButtonView.swift */,
+				B1F506E22C19C864000A8DE8 /* NextExerciesInformationView.swift */,
 				B1F506E42C19CD6D000A8DE8 /* StopActiveButton.swift */,
 			);
 			path = ActivViewsButtons;
@@ -456,7 +456,7 @@
 				B151ABCD2C1D6E61001A9CD8 /* NavigationTitle.swift in Sources */,
 				B1509CB32C10B50200080C69 /* NavigationItemView.swift in Sources */,
 				B1595C472C1A2D6300969977 /* GeneratedSetsView.swift in Sources */,
-				B1F506E32C19C864000A8DE8 /* NextButtonView.swift in Sources */,
+				B1F506E32C19C864000A8DE8 /* NextExerciesInformationView.swift in Sources */,
 				B151DACB2C162A080081D185 /* WorkoutView.swift in Sources */,
 				B131AB292C123D03001070F3 /* TabBarView.swift in Sources */,
 				B11578D72C1DB4A200C1B1F5 /* WorkoutContentConverter.swift in Sources */,

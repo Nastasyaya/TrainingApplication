@@ -7,9 +7,7 @@
 
 import Foundation
 
-struct GeneratedSet {
-    private let id = UUID()
-
+struct GeneratedSet: Hashable {
     let name: String
     let duration: String
     let exercises: [Exercies]
@@ -22,15 +20,5 @@ extension GeneratedSet {
             duration: "12",
             exercises: [.mock]
         )
-    }
-}
-
-extension GeneratedSet: Hashable {
-    static func == (lhs: GeneratedSet, rhs: GeneratedSet) -> Bool {
-        lhs.id == rhs.id
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
     }
 }

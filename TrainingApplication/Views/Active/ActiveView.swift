@@ -16,10 +16,10 @@ struct ActiveView: View {
             
             VStack {
                 HStack(alignment: .firstTextBaseline, spacing: .zero) {
-                    Text("3")
+                    Text(viewModel.content.currentExerciesNumber)
                         .font(.custom("Bebas Neue", size: 28))
                     
-                    Text("/10")
+                    Text("/" + viewModel.content.allExercisesCount)
                         .font(.custom("Bebas Neue", size: 16))
                     
                     Spacer()
@@ -34,18 +34,18 @@ struct ActiveView: View {
                 }
                 
                 HStack {
-                    Text("X12")
+                    Text(viewModel.content.repeatingCount)
                         .opacity(0.5)
                     
-                    Text("Pressure Passing")
+                    Text(viewModel.content.exerciesName)
                 }
                 .font(.custom("Bebas Neue", size: 32))
                 .padding(.bottom, 20)
                 
-                Text("Practice heading from crosses into the box, focusing on timing, direction, and power. Improves aerial ability and goal-scoring headers.")
+                Text(viewModel.content.exerciesDescription)
                     .font(.custom("SF Pro", size: 12))
                     .multilineTextAlignment(.center)
-                    .frame(width: 272)
+                    .frame(width: 272, height: 42)
                 
                 VStack {
                     ZStack {
@@ -55,7 +55,9 @@ struct ActiveView: View {
                             .font(.custom("Bebas Neue", size: 64))
                     }
                     
-                    NextButtonView()
+                    NextExerciesInformationView(
+                        nextExercise: viewModel.content.nextExerciesName
+                    )
                 }
                 
                 HStack {
@@ -66,7 +68,10 @@ struct ActiveView: View {
                     
                     Spacer()
                     
-                    CustomButtonView(label: "next", action: {})
+                    CustomButtonView(
+                        label: viewModel.content.nextButtonTitle,
+                        action: viewModel.nextExercies
+                    )
                 }
                 .padding(.top, 78)
             }
@@ -92,6 +97,7 @@ struct ActiveView: View {
 #Preview {
     ActiveView(
         viewModel: ActiveViewModel(
+            exercises: [],
             onFinish: {}
         )
     )

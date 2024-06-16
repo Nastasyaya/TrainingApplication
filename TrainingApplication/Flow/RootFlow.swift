@@ -14,7 +14,7 @@ struct RootFlow: View {
     }
 
     private enum Destination: Hashable {
-        case active
+        case active(exercises: [Exercies])
         case generatedSets(sets: [GeneratedSet])
         case main
         case result
@@ -52,9 +52,10 @@ struct RootFlow: View {
             }
             .navigationDestination(for: Destination.self) { destination in
                 switch destination {
-                case .active:
+                case .active(let exercises):
                     ActiveFlow(
                         dependencies: ActiveFlow.Dependencies(
+                            exercises: exercises,
                             onNextScreen: {
                                 path.append(.result)
                             }
@@ -97,7 +98,7 @@ struct RootFlow: View {
                     ResultFlow(
                         dependencies: ResultFlow.Dependencies(
                             onFinish: {
-                                path.removeAll()
+                                path.removeLast(3)
                             }
                         )
                     )
@@ -114,7 +115,7 @@ struct RootFlow: View {
                         dependencies: WorkoutDetailFlow.Dependencies(
                             set: set,
                             onStart: {
-                                path.append(.active)
+                                path.append(.active(exercises: set.exercises))
                             },
                             onBack: {
                                 path.removeLast()
