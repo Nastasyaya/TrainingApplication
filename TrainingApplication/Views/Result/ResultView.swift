@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ResultView: View {
-    let onFinish: () -> Void
+    let viewModel: ResultViewModel
 
     var body: some View {
         ZStack {
@@ -34,7 +34,10 @@ struct ResultView: View {
                         HStack(spacing: 66) {
                             TimeResultColumnView(title: "Time", subtitle: "21:06")
                             
-                            TimeResultColumnView(title: "Exer", subtitle: "15/15")
+                            TimeResultColumnView(
+                                title: "Exer",
+                                subtitle: viewModel.content.exercisesCounter
+                            )
                         }
                     }
                 }
@@ -46,9 +49,12 @@ struct ResultView: View {
                         .font(.custom("Bebas Neue", size: 24))
                         .padding(.bottom, 24)
                         .foregroundStyle(.white)
-                    
-                    ResultRowView()
-                    
+
+                    ScrollView {
+                        ForEach(viewModel.content.exerciesRows) {
+                            ResultRowView(viewModel: $0)
+                        }                        
+                    }
                 }
                 .padding()
                 
@@ -57,7 +63,7 @@ struct ResultView: View {
                 CustomButtonView(
                     label: "Complete",
                     image: "checkmark",
-                    action: onFinish
+                    action: viewModel.completeTapped
                 )
                 .padding()
             }
@@ -66,5 +72,13 @@ struct ResultView: View {
 }
 
 #Preview {
-    ResultView(onFinish: {})
+    ResultView(
+        viewModel: ResultViewModel(
+            exercises: .init(
+                allExercisesCount: 1,
+                completedExercises: []
+            ),
+            onFinish: {}
+        )
+    )
 }

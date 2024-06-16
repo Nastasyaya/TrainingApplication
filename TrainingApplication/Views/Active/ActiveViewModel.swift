@@ -33,30 +33,34 @@ final class ActiveViewModel: ObservableObject {
     @Published private(set) var currentTime: String = "0:00"
 
     private var currentExerciesIndex = 0
+    private var startTime: Date = .now
+    private var completedExercises: CompletedExercises = CompletedExercises(
+        allExercisesCount: 0,
+        completedExercises: []
+    )
 
     private let timer = Timer
         .publish(every: 1, on: .main, in: .common)
         .autoconnect()
-    private let startTime: Date = .now
 
     private let exercises: [Exercies]
-    private let onFinish: () -> Void
+    private let onFinish: (_ exercises: CompletedExercises) -> Void
 
     init(
         exercises: [Exercies],
-        onFinish: @escaping () -> Void
+        onFinish: @escaping (_ exercises: CompletedExercises) -> Void
     ) {
         self.exercises = exercises
         self.onFinish = onFinish
     }
 
     func onAppear() {
-        timer
-            .compactMap { [weak self] output in
-                self?.formattedString(from: output)
-            }
-            .assign(to: &$currentTime)
-        
+        observeCurrentTime()
+        completedExercises = CompletedExercises(
+            allExercisesCount: exercises.count,
+            completedExercises: []
+        )
+
         content = Content(
             currentExerciesNumber: "1",
             allExercisesCount: "\(exercises.count)",
@@ -75,7 +79,7 @@ extension ActiveViewModel {
         isPauseTapped.toggle()
 
         guard isPauseTapped else {
-            onAppear()
+            observeCurrentTime()
             return
         }
 
@@ -87,9 +91,16 @@ extension ActiveViewModel {
 
     func nextExercies() {
         guard checkCorrectIndex() else {
-            onFinish()
+            completedExercises
+                .completedExercises
+                .append(exercises[currentExerciesIndex])
+            onFinish(completedExercises)
             return
         }
+
+        completedExercises
+            .completedExercises
+            .append(exercises[currentExerciesIndex])
 
         currentExerciesIndex += 1
 
@@ -113,9 +124,9 @@ extension ActiveViewModel {
             }()
         )
     }
-
+    
     func finishTapped() {
-        onFinish()
+        onFinish(completedExercises)
     }
 
     func showAlertTapped() {
@@ -129,6 +140,14 @@ extension ActiveViewModel {
 
 // MARK: - SupportMethods
 private extension ActiveViewModel {
+    func observeCurrentTime() {
+        timer
+            .compactMap { [weak self] output in
+                self?.formattedString(from: output)
+            }
+            .assign(to: &$currentTime)
+    }
+
     func checkCorrectIndex() -> Bool {
         currentExerciesIndex < exercises.count - 1
     }

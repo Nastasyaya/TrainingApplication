@@ -10,7 +10,7 @@ import SwiftUI
 struct ActiveFlow: View {
     struct Dependencies {
         let exercises: [Exercies]
-        let onNextScreen: () -> Void
+        let onNextScreen: (_ exercises: CompletedExercises) -> Void
     }
 
     let dependencies: Dependencies

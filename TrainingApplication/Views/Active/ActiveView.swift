@@ -98,7 +98,7 @@ struct ActiveView: View {
     ActiveView(
         viewModel: ActiveViewModel(
             exercises: [],
-            onFinish: {}
+            onFinish: { _ in }
         )
     )
 }

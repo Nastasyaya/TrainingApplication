@@ -9,12 +9,18 @@ import SwiftUI
 
 struct ResultFlow: View {
     struct Dependencies {
+        let exercises: CompletedExercises
         let onFinish: () -> Void
     }
     
     let dependencies: Dependencies
 
     var body: some View {
-        ResultView(onFinish: dependencies.onFinish)
+        ResultView(
+            viewModel: ResultViewModel(
+                exercises: dependencies.exercises,
+                onFinish: dependencies.onFinish
+            )
+        )
     }
 }

@@ -17,7 +17,7 @@ struct RootFlow: View {
         case active(exercises: [Exercies])
         case generatedSets(sets: [GeneratedSet])
         case main
-        case result
+        case result(exercises: CompletedExercises)
         case settingsDetail(type: SettingsDetailView.SettingsType)
         case workoutDetail(set: GeneratedSet)
     }
@@ -56,8 +56,8 @@ struct RootFlow: View {
                     ActiveFlow(
                         dependencies: ActiveFlow.Dependencies(
                             exercises: exercises,
-                            onNextScreen: {
-                                path.append(.result)
+                            onNextScreen: { exercises in
+                                path.append(.result(exercises: exercises))
                             }
                         )
                     )
@@ -94,9 +94,10 @@ struct RootFlow: View {
                         )
                     )
                     .navigationBarBackButtonHidden()
-                case .result:
+                case .result(let exercises):
                     ResultFlow(
                         dependencies: ResultFlow.Dependencies(
+                            exercises: exercises,
                             onFinish: {
                                 path.removeLast(3)
                             }
