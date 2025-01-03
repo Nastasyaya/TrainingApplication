@@ -13,29 +13,30 @@ struct WorkoutView: View {
     @FocusState private var isFocused: Bool
 
     var body: some View {
-        ZStack {
-            BackgroundImage(name: Images.Backgrounds.onboarding)
-
-            VStack {
-                header
-
-                Spacer()
-
-                sets
+            ZStack {
+                BackgroundImage(name: Images.Backgrounds.onboarding)
+                
+                VStack {
+                    header
+                    
+                    Spacer()
+                    
+                    sets
+                }
             }
-        }
-        .onAppear(perform: viewModel.onAppear)
-        .onTapGesture {
-            isFocused = false
-        }
+            .onAppear(perform: viewModel.onAppear)
+            .onTapGesture {
+                isFocused = false
+            }
     }
     
     private var header: some View {
         ZStack(alignment: .leading) {
-            Image("Main")
-                .resizable()
-                .frame(height: 196)
-                .ignoresSafeArea()
+                            
+                Image("Main")
+                    .resizable()
+                    .frame(height: 196)
+                    .ignoresSafeArea()
             
             VStack(alignment: .leading, spacing: 24) {
                 Text("Hello, Champion 👋🏼")
@@ -45,10 +46,9 @@ struct WorkoutView: View {
                     .focused($isFocused)
             }
             .padding(.horizontal)
-            .padding(.top, 24)
         }
     }
-
+                       
     private var sets: some View {
         ScrollView {
             HStack {
@@ -74,6 +74,7 @@ struct WorkoutView: View {
             }
             .padding(.horizontal)
         }
+        .padding(.bottom, 40)
     }
 }
 

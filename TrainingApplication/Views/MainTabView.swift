@@ -23,7 +23,6 @@ struct MainTabView: View {
                 settingsFlowBuilder()
                     .tag(Tabs.settings)
             }
-
             TabBarView(selectedTab: $selectedTab)
                 .padding(.bottom, -24)
         }

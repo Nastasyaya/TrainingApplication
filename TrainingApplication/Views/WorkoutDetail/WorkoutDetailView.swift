@@ -16,10 +16,7 @@ struct WorkoutDetailView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-                Image(.detail)
-                    .resizable()
-                    .frame(height: 196)
-                    .ignoresSafeArea()
+                backgroundImage
 
                 VStack(alignment: .leading, spacing: 0) {
                     Text(viewModel.content.title)
@@ -29,13 +26,7 @@ struct WorkoutDetailView: View {
                         .foregroundStyle(.white)
                         .padding(.bottom, 12)
                     
-                    HStack(spacing: 10) {
-                        ForEach(viewModel.content.tags) {
-                            TagItemView(viewModel: $0)
-                                .padding(10)
-                        }
-                    }
-                    .padding(.bottom, 32)
+                    tagsItemView
                     
                     ScrollView {
                         ForEach(viewModel.content.rows) {
@@ -58,6 +49,23 @@ struct WorkoutDetailView: View {
             )
             .padding(.horizontal)
         }
+    }
+    
+    private var tagsItemView: some View {
+        HStack(spacing: 10) {
+            ForEach(viewModel.content.tags) {
+                TagItemView(viewModel: $0)
+                    .padding(10)
+            }
+        }
+        .padding(.bottom, 32)
+    }
+    
+    private var backgroundImage: some View {
+        Image(.detail)
+            .resizable()
+            .frame(height: 196)
+            .ignoresSafeArea()
     }
 }
 #Preview {

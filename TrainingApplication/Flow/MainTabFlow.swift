@@ -34,5 +34,6 @@ struct MainTabFlow: View {
                 )
             }
         )
+        .ignoresSafeArea(.keyboard)
     }
 }

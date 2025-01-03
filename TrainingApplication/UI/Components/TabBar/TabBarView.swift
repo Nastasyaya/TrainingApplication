@@ -21,44 +21,11 @@ struct TabBarView: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 4) {
-            Button(
-                action: {
-                    selectedTab = .workout
-                },
-                label: {
-                    TabBarButton(
-                        text: "Workout",
-                        imageName: "football.fill",
-                        color: workoutColor
-                    )
-                }
-            )
+            workoutButton
 
-            Button(
-                action: {
-                    // some action
-                },
-                label: {
-                    Image(systemName: "plus.circle.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 44, height: 44)
-                }
-            )
-            .tint(Color.customPink)
+            plusButton
             
-            Button(
-                action: {
-                    selectedTab = .settings
-                },
-                label: {
-                    TabBarButton(
-                        text: "Settings",
-                        imageName: "person.fill",
-                        color: settingsColor
-                    )
-                }
-            )
+            settingsButton
         }
         .background(Color.customGrey)
         .frame(height: 91)
@@ -73,10 +40,53 @@ struct TabBarView: View {
             }
         }
     }
+    
+    private var settingsButton: some View {
+        Button(
+            action: {
+                selectedTab = .settings
+            },
+            label: {
+                TabBarButton(
+                    text: "Settings",
+                    imageName: "person.fill",
+                    color: settingsColor
+                )
+            }
+        )
+    }
+    
+    private var workoutButton: some View {
+        Button(
+            action: {
+                selectedTab = .workout
+            },
+            label: {
+                TabBarButton(
+                    text: "Workout",
+                    imageName: "football.fill",
+                    color: workoutColor
+                )
+            }
+        )
+    }
+    
+    private var plusButton: some View {
+        Button(
+            action: {},
+            label: {
+                Image(systemName: "plus.circle.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 44, height: 44)
+            }
+        )
+        .tint(Color.customPink)
+    }
 }
 
 
 #Preview {
-    @State var selectedTab: Tabs = .workout
+    @Previewable @State var selectedTab: Tabs = .workout
     return TabBarView(selectedTab: $selectedTab)
 }

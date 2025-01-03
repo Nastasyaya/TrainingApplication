@@ -11,54 +11,17 @@ struct ActiveView: View {
     @StateObject var viewModel: ActiveViewModel
 
     var body: some View {
-        ZStack{
+        ZStack {
             BackgroundImage(name: Images.Backgrounds.onboarding)
             
             VStack {
-                HStack(alignment: .firstTextBaseline, spacing: .zero) {
-                    Text(viewModel.content.currentExerciesNumber)
-                        .font(.custom("Bebas Neue", size: 28))
-                    
-                    Text("/" + viewModel.content.allExercisesCount)
-                        .font(.custom("Bebas Neue", size: 16))
-                    
-                    Spacer()
-                    
-                    TransporentButtonView(
-                        image: "xmark",
-                        action: {
-                            viewModel.showAlertTapped()
-                        }
-                    )
-                    .padding()
-                }
+                exersiseCounter
                 
-                HStack {
-                    Text(viewModel.content.repeatingCount)
-                        .opacity(0.5)
-                    
-                    Text(viewModel.content.exerciesName)
-                }
-                .font(.custom("Bebas Neue", size: 32))
-                .padding(.bottom, 20)
+                exerciseHeader
                 
-                Text(viewModel.content.exerciesDescription)
-                    .font(.custom("SF Pro", size: 12))
-                    .multilineTextAlignment(.center)
-                    .frame(width: 272, height: 42)
+                exerciseDescription
                 
-                VStack {
-                    ZStack {
-                        Image(.ring)
-                        
-                        Text(viewModel.currentTime)
-                            .font(.custom("Bebas Neue", size: 64))
-                    }
-                    
-                    NextExerciesInformationView(
-                        nextExercise: viewModel.content.nextExerciesName
-                    )
-                }
+                ringView
                 
                 HStack {
                     StopActiveButton(
@@ -90,6 +53,58 @@ struct ActiveView: View {
             Button("Cancel", role: .none) {
                 viewModel.hideAlertTapped()
             }
+        }
+    }
+    
+    private var exersiseCounter: some View {
+        HStack(alignment: .firstTextBaseline, spacing: .zero) {
+            Text(viewModel.content.currentExerciesNumber)
+                .font(.custom("Bebas Neue", size: 28))
+            
+            Text("/" + viewModel.content.allExercisesCount)
+                .font(.custom("Bebas Neue", size: 16))
+            
+            Spacer()
+            
+            TransporentButtonView(
+                image: "xmark",
+                action: {
+                    viewModel.showAlertTapped()
+                }
+            )
+            .padding()
+        }
+    }
+    
+    private var exerciseHeader: some View {
+        HStack {
+            Text(viewModel.content.repeatingCount)
+                .opacity(0.5)
+            
+            Text(viewModel.content.exerciesName)
+        }
+        .font(.custom("Bebas Neue", size: 32))
+        .padding(.bottom, 20)
+    }
+    
+    private var exerciseDescription: some View {
+        Text(viewModel.content.exerciesDescription)
+            .font(.custom("SF Pro", size: 12))
+            .multilineTextAlignment(.center)
+            .frame(width: 272, height: 42)
+    }
+    
+    private var ringView: some View {
+        VStack {
+            ZStack {
+                Image(.ring)
+                
+                Text(viewModel.currentTime)
+                    .font(.custom("Bebas Neue", size: 64))
+            }
+            NextExerciesInformationView(
+                nextExercise: viewModel.content.nextExerciesName
+            )
         }
     }
 }

@@ -10,4 +10,5 @@ import Foundation
 struct ResultRowViewModel: Identifiable {
     let id = UUID()
     let exerciesName: String
+    let exerciseDuration: String
 }

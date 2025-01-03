@@ -11,6 +11,7 @@ final class ResultViewModel {
     struct Content {
         let exercisesCounter: String
         let exerciesRows: [ResultRowViewModel]
+        let totaltime: String
     }
 
     let content: Content
@@ -21,7 +22,14 @@ final class ResultViewModel {
         exercises: CompletedExercises,
         onFinish: @escaping () -> Void
     ) {
+        
         self.onFinish = onFinish
+        
+        let totalDuration = exercises.totalTimeDuration
+        let formattedTotalTime = Duration(
+            secondsComponent: Int64(totalDuration),
+            attosecondsComponent: 0
+        ).formatted(.time(pattern: .minuteSecond))
 
         content = Content(
             exercisesCounter: [
@@ -29,8 +37,12 @@ final class ResultViewModel {
                 "\(exercises.allExercisesCount)"
             ].joined(separator: "/"),
             exerciesRows: exercises.completedExercises.map {
-                ResultRowViewModel(exerciesName: $0.name)
-            }
+                ResultRowViewModel(
+                    exerciesName: $0.name,
+                    exerciseDuration: Duration(secondsComponent: Int64($0.duration), attosecondsComponent: 0).formatted(.time(pattern: .minuteSecond))
+                )
+            },
+            totaltime: formattedTotalTime
         )
     }
 

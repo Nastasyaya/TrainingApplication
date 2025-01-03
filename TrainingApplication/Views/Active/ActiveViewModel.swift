@@ -18,6 +18,8 @@ final class ActiveViewModel: ObservableObject {
         let nextExerciesName: String
         let nextButtonTitle: String
     }
+    
+    private var exerciseStartTime: Date?
 
     @Published var isAlertShown: Bool = false
     @Published var isPauseTapped: Bool = false
@@ -82,7 +84,6 @@ extension ActiveViewModel {
             observeCurrentTime()
             return
         }
-
         timer
             .upstream
             .connect()
@@ -91,16 +92,12 @@ extension ActiveViewModel {
 
     func nextExercies() {
         guard checkCorrectIndex() else {
-            completedExercises
-                .completedExercises
-                .append(exercises[currentExerciesIndex])
+            saveCurrentTime()
             onFinish(completedExercises)
             return
         }
 
-        completedExercises
-            .completedExercises
-            .append(exercises[currentExerciesIndex])
+        saveCurrentTime()
 
         currentExerciesIndex += 1
 
@@ -123,9 +120,11 @@ extension ActiveViewModel {
                 return "Next"
             }()
         )
+        exerciseStartTime = Date()
     }
     
     func finishTapped() {
+        saveCurrentTime()
         onFinish(completedExercises)
     }
 
@@ -162,5 +161,18 @@ private extension ActiveViewModel {
             attosecondsComponent: 0
         )
         .formatted(.time(pattern: .minuteSecond))
+    }
+}
+
+// MARK: - SAVE CURRENT TIME
+private extension ActiveViewModel {
+    func saveCurrentTime() {
+        guard let startTime = exerciseStartTime else { return }
+        let duration = Date().timeIntervalSince(startTime)
+        let completedExercise = CompletedExercise(
+            name: exercises[currentExerciesIndex].name,
+            duration: duration
+        )
+        completedExercises.completedExercises.append(completedExercise)
     }
 }

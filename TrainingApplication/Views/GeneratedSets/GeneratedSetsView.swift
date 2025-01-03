@@ -22,7 +22,6 @@ struct GeneratedSetsView: View {
                 }
                 .offset(y: 92)
                 .padding(.horizontal)
-                
             }
         }
         .backButton(onBack: viewModel.backTapped)

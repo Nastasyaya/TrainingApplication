@@ -40,6 +40,7 @@
 		B151AC502C1EF5D6006FEB68 /* CompletedExercises.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151AC4F2C1EF5D6006FEB68 /* CompletedExercises.swift */; };
 		B151AC532C1EFAFC006FEB68 /* ResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151AC522C1EFAFC006FEB68 /* ResultViewModel.swift */; };
 		B151AC562C1EFDA2006FEB68 /* ResultRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151AC552C1EFDA2006FEB68 /* ResultRowViewModel.swift */; };
+		B151AC582C1F40CB006FEB68 /* COSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151AC572C1F40CB006FEB68 /* COSpinner.swift */; };
 		B151DABC2C15C0CA0081D185 /* RootFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151DABB2C15C0CA0081D185 /* RootFlow.swift */; };
 		B151DABF2C15C4420081D185 /* OnboardingFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151DABE2C15C4420081D185 /* OnboardingFlow.swift */; };
 		B151DAC12C15D00C0081D185 /* SettingsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151DAC02C15D00C0081D185 /* SettingsDetailView.swift */; };
@@ -103,6 +104,7 @@
 		B151AC4F2C1EF5D6006FEB68 /* CompletedExercises.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedExercises.swift; sourceTree = "<group>"; };
 		B151AC522C1EFAFC006FEB68 /* ResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewModel.swift; sourceTree = "<group>"; };
 		B151AC552C1EFDA2006FEB68 /* ResultRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultRowViewModel.swift; sourceTree = "<group>"; };
+		B151AC572C1F40CB006FEB68 /* COSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = COSpinner.swift; sourceTree = "<group>"; };
 		B151DABB2C15C0CA0081D185 /* RootFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootFlow.swift; sourceTree = "<group>"; };
 		B151DABE2C15C4420081D185 /* OnboardingFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlow.swift; sourceTree = "<group>"; };
 		B151DAC02C15D00C0081D185 /* SettingsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDetailView.swift; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 				B1AB67D92C1650E600866FD3 /* ExercisesListRow */,
 				B151ABCA2C1D6C56001A9CD8 /* BackButton.swift */,
 				B151ABCC2C1D6E60001A9CD8 /* NavigationTitle.swift */,
+				B151AC572C1F40CB006FEB68 /* COSpinner.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 				B181E4152C0F5A8C00C368AB /* MainTabView.swift in Sources */,
 				B151ABCB2C1D6C56001A9CD8 /* BackButton.swift in Sources */,
 				B14428C92C10F621008497D6 /* TagItemView.swift in Sources */,
+				B151AC582C1F40CB006FEB68 /* COSpinner.swift in Sources */,
 				B151DACD2C162B640081D185 /* WorkoutFlow.swift in Sources */,
 				B151DAC92C1629FC0081D185 /* WorkoutViewModel.swift in Sources */,
 				B1F506F52C1A28E1000A8DE8 /* WorkoutDetailFlow.swift in Sources */,

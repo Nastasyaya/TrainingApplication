@@ -17,7 +17,7 @@ struct ResultRowView: View {
 
             Spacer()
 
-            Text("3.06")
+            Text("\(viewModel.exerciseDuration)")
                 .font(.custom("Bebas Neue", size: 17))
 
             Text("min.")
@@ -34,7 +34,7 @@ struct ResultRowView: View {
             .ignoresSafeArea()
         ResultRowView(
             viewModel: ResultRowViewModel(
-                exerciesName: ""
+                exerciesName: "Back fllip", exerciseDuration: "3,06"
             )
         )
     }

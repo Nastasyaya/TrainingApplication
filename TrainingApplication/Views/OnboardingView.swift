@@ -21,16 +21,9 @@ struct OnboardingView: View {
                     .offset(x: -45, y: 10)
                 
                 VStack (alignment: .leading) {
-                    Text("Unleash Your Potential")
-                        .font(.custom("Bebas Neue", size: 64))
-                        .foregroundStyle(Color.white)
+                    header
 
-                    Text("""
-                    Dive into the world of American football training. Explore dynamic workouts designed to unlock your gridiron potential.
-                    """)
-                    .font(.custom("SF Pro Text", size: 15))
-                    .foregroundStyle(Color.white)
-                    .opacity(0.5)
+                    footer
                 }
                 .padding()
 
@@ -42,6 +35,21 @@ struct OnboardingView: View {
             }
             .padding()
         }
+    }
+    
+    private var header: some View {
+        Text("Unleash Your Potential")
+            .font(.custom("Bebas Neue", size: 64))
+            .foregroundStyle(Color.white)
+    }
+    
+    private var footer: some View {
+        Text("""
+        Dive into the world of American football training. Explore dynamic workouts designed to unlock your gridiron potential.
+        """)
+        .font(.custom("SF Pro Text", size: 15))
+        .foregroundStyle(Color.white)
+        .opacity(0.5)
     }
 }
 
