@@ -9,23 +9,60 @@ import SwiftUI
 
 struct GeneratedSetsView: View {
     let viewModel: GeneratedSetsViewModel
-
+    
     var body: some View {
+        
         ZStack {
-            BackgroundImage(name: Images.Backgrounds.onboarding)
+            GeometryReader { geo in
+                BackgroundImage(name: Images.Backgrounds.onboarding)
+                    .scaledToFill()
+                    .frame(width: geo.size.width, height: geo.size.height)
+            }
 
-            ScrollView {
-                VStack(spacing: 12) {
-                    ForEach(viewModel.navigationItems) {
-                        NavigationItemView(viewModel: $0)
+            VStack {
+                customNavigation
+                
+                ScrollView {
+                    VStack(spacing: 12) {
+                        ForEach(viewModel.navigationItems) {
+                            NavigationItemView(viewModel: $0)
+                        }
                     }
+                    .padding(
+                        EdgeInsets(
+                            top: 16,
+                            leading: 16,
+                            bottom: 35,
+                            trailing: 16
+                        )
+                    )
                 }
-                .offset(y: 92)
-                .padding(.horizontal)
             }
         }
-        .backButton(onBack: viewModel.backTapped)
-        .customNavigationTitle(title: "Generated sets")
+        .toolbar(.hidden)
+    }
+    
+    private var customNavigation: some View {
+        HStack {
+            TransporentButtonView(
+                image: "arrow.left",
+                action: viewModel.backTapped
+            )
+            .padding(.horizontal, 16)
+            Spacer()
+        }
+        .overlay {
+            HStack {
+                Spacer()
+                Text("Generated sets")
+                    .foregroundStyle(.white)
+                    .font(.custom("SF Pro", size: 15))
+                    .fontWeight(.semibold)
+                
+                Spacer()
+            }
+        }
+        .padding()
     }
 }
 

@@ -9,46 +9,53 @@ import SwiftUI
 
 struct WorkoutView: View {
     @StateObject var viewModel: WorkoutViewModel
-
+    
     @FocusState private var isFocused: Bool
-
+    
     var body: some View {
-            ZStack {
-                BackgroundImage(name: Images.Backgrounds.onboarding)
+        VStack {
+            header
+
+            VStack(spacing: .zero) {
                 
-                VStack {
-                    header
-                    
-                    Spacer()
-                    
-                    sets
-                }
+                sets
             }
-            .onAppear(perform: viewModel.onAppear)
-            .onTapGesture {
-                isFocused = false
-            }
+            .ignoresSafeArea(.keyboard)
+        }
+        .background {
+            Color.customDarkGrey
+                .ignoresSafeArea()
+        }
+        .onAppear(perform: viewModel.onAppear)
+        .onTapGesture {
+            isFocused = false
+        }
     }
     
     private var header: some View {
         ZStack(alignment: .leading) {
-                            
-                Image("Main")
-                    .resizable()
-                    .frame(height: 196)
-                    .ignoresSafeArea()
             
-            VStack(alignment: .leading, spacing: 24) {
+            Image("Main")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+                .frame(height: 196)
+            
+            VStack(alignment: .leading) {
                 Text("Hello, Champion 👋🏼")
                     .font(.custom("Bebas Neue", size: 28))
                     .foregroundStyle(.white)
+                    .padding(.top, 24)
+                
                 SearchBarView(inputText: $viewModel.inputSearchText)
                     .focused($isFocused)
+                    .padding(.bottom, 14)
+                
             }
             .padding(.horizontal)
         }
     }
-                       
+    
     private var sets: some View {
         ScrollView {
             HStack {
@@ -65,16 +72,16 @@ struct WorkoutView: View {
                 }
                 .foregroundStyle(.customPink)
             }
-            .padding()
-
+            .padding(.vertical, 24)
+            .padding(.horizontal)
+            
             VStack(spacing: 12) {
-                ForEach(viewModel.navigationItems) {
+                ForEach(viewModel.navigationItems.prefix(4)) {
                     NavigationItemView(viewModel: $0)
                 }
             }
             .padding(.horizontal)
         }
-        .padding(.bottom, 40)
     }
 }
 

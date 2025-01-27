@@ -20,25 +20,31 @@ struct TabBarView: View {
     @State private var settingsColor: Color = Color.customLightGrey
     
     var body: some View {
-        HStack(alignment: .center, spacing: 4) {
-            workoutButton
-
-            plusButton
+        VStack(spacing: .zero) {
+            Rectangle()
+                .foregroundStyle(.white.opacity(0.2))
+                .frame(height: 1)
             
-            settingsButton
-        }
-        .background(Color.customGrey)
-        .frame(height: 91)
-        .onChange(of: selectedTab) {
-            switch selectedTab {
-            case .workout:
-                workoutColor = Color.customPink
-                settingsColor = Color.customLightGrey
-            case .settings:
-                workoutColor = Color.customLightGrey
-                settingsColor = Color.customPink
+            HStack(alignment: .center, spacing: 4) {
+                workoutButton
+                
+                plusButton
+                
+                settingsButton
+            }
+            .background(Color.customGrey)
+            .onChange(of: selectedTab) {
+                switch selectedTab {
+                case .workout:
+                    workoutColor = Color.customPink
+                    settingsColor = Color.customLightGrey
+                case .settings:
+                    workoutColor = Color.customLightGrey
+                    settingsColor = Color.customPink
+                }
             }
         }
+        .frame(height: 91)
     }
     
     private var settingsButton: some View {
@@ -88,5 +94,6 @@ struct TabBarView: View {
 
 #Preview {
     @Previewable @State var selectedTab: Tabs = .workout
+    
     return TabBarView(selectedTab: $selectedTab)
 }

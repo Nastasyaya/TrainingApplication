@@ -20,7 +20,9 @@ final class ActiveViewModel: ObservableObject {
     }
     
     private var exerciseStartTime: Date?
-
+    private var timerSubscription: AnyCancellable? = nil
+    private var accumulatedTime: TimeInterval = 0
+    
     @Published var isAlertShown: Bool = false
     @Published var isPauseTapped: Bool = false
     @Published private(set) var content: Content = Content(
@@ -33,21 +35,21 @@ final class ActiveViewModel: ObservableObject {
         nextButtonTitle: ""
     )
     @Published private(set) var currentTime: String = "0:00"
-
+    
     private var currentExerciesIndex = 0
     private var startTime: Date = .now
     private var completedExercises: CompletedExercises = CompletedExercises(
         allExercisesCount: 0,
         completedExercises: []
     )
-
+    
     private let timer = Timer
         .publish(every: 1, on: .main, in: .common)
         .autoconnect()
-
+    
     private let exercises: [Exercies]
     private let onFinish: (_ exercises: CompletedExercises) -> Void
-
+    
     init(
         exercises: [Exercies],
         onFinish: @escaping (_ exercises: CompletedExercises) -> Void
@@ -55,14 +57,15 @@ final class ActiveViewModel: ObservableObject {
         self.exercises = exercises
         self.onFinish = onFinish
     }
-
+    
     func onAppear() {
+        startTimer()
         observeCurrentTime()
         completedExercises = CompletedExercises(
             allExercisesCount: exercises.count,
             completedExercises: []
         )
-
+        
         content = Content(
             currentExerciesNumber: "1",
             allExercisesCount: "\(exercises.count)",
@@ -79,28 +82,26 @@ final class ActiveViewModel: ObservableObject {
 extension ActiveViewModel {
     func timerButtonTapped() {
         isPauseTapped.toggle()
-
-        guard isPauseTapped else {
-            observeCurrentTime()
-            return
+        
+        if isPauseTapped {
+            pauseTimer()
+        } else {
+            startTimer()
         }
-        timer
-            .upstream
-            .connect()
-            .cancel()
+        
     }
-
+    
     func nextExercies() {
         guard checkCorrectIndex() else {
             saveCurrentTime()
             onFinish(completedExercises)
             return
         }
-
+        
         saveCurrentTime()
-
+        
         currentExerciesIndex += 1
-
+        
         content = Content(
             currentExerciesNumber: "\(currentExerciesIndex + 1)",
             allExercisesCount: "\(exercises.count)",
@@ -121,46 +122,65 @@ extension ActiveViewModel {
             }()
         )
         exerciseStartTime = Date()
+        startTimer()
     }
     
     func finishTapped() {
         saveCurrentTime()
         onFinish(completedExercises)
     }
-
+    
     func showAlertTapped() {
         isAlertShown = true
     }
-
+    
     func hideAlertTapped() {
         isAlertShown = false
+    }
+    
+    func pauseTimer() {
+        if let startTime = exerciseStartTime {
+            accumulatedTime += Date().timeIntervalSince(startTime)
+        }
+        exerciseStartTime = nil
+        timerSubscription?.cancel()
+    }
+    
+    func startTimer() {
+        exerciseStartTime = Date()
+        timerSubscription = Timer
+            .publish(every: 1, on: .main, in: .common)
+            .autoconnect()
+            .sink(receiveValue: {[weak self] _ in
+                guard let self = self, let startTime = self.exerciseStartTime else { return }
+                let elapsed = self.accumulatedTime + Date().timeIntervalSince(startTime)
+                self.currentTime = self.formattedString(from: elapsed)
+            })
     }
 }
 
 // MARK: - SupportMethods
 private extension ActiveViewModel {
     func observeCurrentTime() {
-        timer
-            .compactMap { [weak self] output in
-                self?.formattedString(from: output)
-            }
-            .assign(to: &$currentTime)
+        timerSubscription = Timer
+            .publish(every: 1, on: .main, in: .common)
+            .autoconnect()
+            .sink(receiveValue: { [weak self] _ in
+                guard let self = self, let startTime = self.exerciseStartTime else { return }
+                let elapsed = self.accumulatedTime + Date().timeIntervalSince(startTime)
+                self.currentTime = self.formattedString(from: elapsed)
+            })
     }
-
+    
+    
     func checkCorrectIndex() -> Bool {
         currentExerciesIndex < exercises.count - 1
     }
-
-    func formattedString(
-        from publisher: Publishers.Autoconnect<Timer.TimerPublisher>.Output
-    ) -> String {
-        let timeInterval = publisher.timeIntervalSince(startTime)
-
-        return Duration(
-            secondsComponent: Int64(timeInterval),
-            attosecondsComponent: 0
-        )
-        .formatted(.time(pattern: .minuteSecond))
+    
+    func formattedString(from seconds: TimeInterval) -> String {
+        let minutes = Int(seconds) / 60
+        let remainingSeconds = Int(seconds) % 60
+        return String(format: "%d:%02d", minutes, remainingSeconds)
     }
 }
 
