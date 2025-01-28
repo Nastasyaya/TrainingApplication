@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct GeneratedSetsView: View {
+    @Environment(\.presentationMode) var presentationMode
+
     let viewModel: GeneratedSetsViewModel
     
     var body: some View {
-        
         ZStack {
             GeometryReader { geo in
                 BackgroundImage(name: Images.Backgrounds.onboarding)
@@ -22,7 +23,7 @@ struct GeneratedSetsView: View {
             VStack {
                 customNavigation
                 
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     VStack(spacing: 12) {
                         ForEach(viewModel.navigationItems) {
                             NavigationItemView(viewModel: $0)
@@ -40,6 +41,14 @@ struct GeneratedSetsView: View {
             }
         }
         .toolbar(.hidden)
+        .gesture(
+            DragGesture()
+                .onChanged { value in
+                    if value.translation.width > 100 {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                }
+        )
     }
     
     private var customNavigation: some View {

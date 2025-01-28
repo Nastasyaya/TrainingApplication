@@ -67,7 +67,7 @@ struct ResultView: View {
                 .padding(.bottom, 24)
                 .foregroundStyle(.white)
             
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 ForEach(viewModel.content.exerciesRows) {
                     ResultRowView(viewModel: $0)
                 }
@@ -82,7 +82,7 @@ struct ResultView: View {
         viewModel: ResultViewModel(
             exercises: .init(
                 allExercisesCount: 1,
-                completedExercises: []
+                exercises: []
             ),
             onFinish: {}
         )

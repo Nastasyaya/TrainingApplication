@@ -28,7 +28,7 @@ struct WorkoutDetailView: View {
                     
                     tagsItemView
                     
-                    ScrollView {
+                    ScrollView(showsIndicators: false) {
                         ForEach(viewModel.content.rows) {
                             ExercisesListRowView(viewModel: $0)
                                 .padding(.bottom, 8)

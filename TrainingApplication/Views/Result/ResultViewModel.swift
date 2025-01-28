@@ -33,10 +33,10 @@ final class ResultViewModel {
 
         content = Content(
             exercisesCounter: [
-                "\(exercises.completedExercises.count)",
+                "\(exercises.exercises.count)",
                 "\(exercises.allExercisesCount)"
             ].joined(separator: "/"),
-            exerciesRows: exercises.completedExercises.map {
+            exerciesRows: exercises.exercises.map {
                 ResultRowViewModel(
                     exerciesName: $0.name,
                     exerciseDuration: Duration(secondsComponent: Int64($0.duration), attosecondsComponent: 0).formatted(.time(pattern: .minuteSecond))

@@ -14,9 +14,9 @@ struct CompletedExercise: Hashable {
 
 struct CompletedExercises: Hashable {
     let allExercisesCount: Int
-    var completedExercises: [CompletedExercise]
+    var exercises: [CompletedExercise]
     var totalTimeDuration: TimeInterval {
-        completedExercises.reduce(0) {
+        exercises.reduce(0) {
             $0 + $1.duration
         }
     }

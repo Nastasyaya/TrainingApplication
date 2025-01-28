@@ -37,10 +37,9 @@ final class ActiveViewModel: ObservableObject {
     @Published private(set) var currentTime: String = "0:00"
     
     private var currentExerciesIndex = 0
-    private var startTime: Date = .now
     private var completedExercises: CompletedExercises = CompletedExercises(
         allExercisesCount: 0,
-        completedExercises: []
+        exercises: []
     )
     
     private let timer = Timer
@@ -56,25 +55,8 @@ final class ActiveViewModel: ObservableObject {
     ) {
         self.exercises = exercises
         self.onFinish = onFinish
-    }
-    
-    func onAppear() {
-        startTimer()
-        observeCurrentTime()
-        completedExercises = CompletedExercises(
-            allExercisesCount: exercises.count,
-            completedExercises: []
-        )
         
-        content = Content(
-            currentExerciesNumber: "1",
-            allExercisesCount: "\(exercises.count)",
-            repeatingCount: exercises.first?.repeatingCount ?? "",
-            exerciesName: exercises.first?.name ?? "",
-            exerciesDescription: exercises.first?.description ?? "",
-            nextExerciesName: exercises[1].name,
-            nextButtonTitle: "Next"
-        )
+        onAppear()
     }
 }
 
@@ -88,7 +70,6 @@ extension ActiveViewModel {
         } else {
             startTimer()
         }
-        
     }
     
     func nextExercies() {
@@ -121,21 +102,15 @@ extension ActiveViewModel {
                 return "Next"
             }()
         )
-        exerciseStartTime = Date()
-        startTimer()
+        resetTimer()
     }
-    
+}
+
+// MARK: - Timer Methods
+extension ActiveViewModel {
     func finishTapped() {
         saveCurrentTime()
         onFinish(completedExercises)
-    }
-    
-    func showAlertTapped() {
-        isAlertShown = true
-    }
-    
-    func hideAlertTapped() {
-        isAlertShown = false
     }
     
     func pauseTimer() {
@@ -145,23 +120,43 @@ extension ActiveViewModel {
         exerciseStartTime = nil
         timerSubscription?.cancel()
     }
+}
+
+// MARK: - Work with Alert
+extension ActiveViewModel {
+    func showAlertTapped() {
+        isAlertShown = true
+    }
     
-    func startTimer() {
-        exerciseStartTime = Date()
-        timerSubscription = Timer
-            .publish(every: 1, on: .main, in: .common)
-            .autoconnect()
-            .sink(receiveValue: {[weak self] _ in
-                guard let self = self, let startTime = self.exerciseStartTime else { return }
-                let elapsed = self.accumulatedTime + Date().timeIntervalSince(startTime)
-                self.currentTime = self.formattedString(from: elapsed)
-            })
+    func hideAlertTapped() {
+        isAlertShown = false
     }
 }
 
-// MARK: - SupportMethods
+// MARK: - On Appear
+extension ActiveViewModel {
+    func onAppear() {
+        startTimer()
+        completedExercises = CompletedExercises(
+            allExercisesCount: exercises.count,
+            exercises: []
+        )
+        
+        content = Content(
+            currentExerciesNumber: "1",
+            allExercisesCount: "\(exercises.count)",
+            repeatingCount: exercises.first?.repeatingCount ?? "",
+            exerciesName: exercises.first?.name ?? "",
+            exerciesDescription: exercises.first?.description ?? "",
+            nextExerciesName: exercises[1].name,
+            nextButtonTitle: "Next"
+        )
+    }
+}
+
+// MARK: - Start/Reset Timer
 private extension ActiveViewModel {
-    func observeCurrentTime() {
+    func startTimer() {
         timerSubscription = Timer
             .publish(every: 1, on: .main, in: .common)
             .autoconnect()
@@ -170,9 +165,41 @@ private extension ActiveViewModel {
                 let elapsed = self.accumulatedTime + Date().timeIntervalSince(startTime)
                 self.currentTime = self.formattedString(from: elapsed)
             })
+        
+        exerciseStartTime = Date()
     }
     
-    
+    func resetTimer() {
+        accumulatedTime = 0
+        currentTime = "0:00"
+        isPauseTapped = false
+        startTimer()
+    }
+}
+
+
+// MARK: - Save current time
+private extension ActiveViewModel {
+    func saveCurrentTime() {
+        let totalDuration: TimeInterval
+        if let startTime = exerciseStartTime {
+            totalDuration = accumulatedTime + Date().timeIntervalSince(startTime)
+        } else {
+            totalDuration = accumulatedTime
+        }
+        
+        let completedExercise = CompletedExercise(
+            name: exercises[currentExerciesIndex].name,
+            duration: totalDuration
+        )
+        completedExercises.exercises.append(completedExercise)
+        
+        accumulatedTime = 0
+    }
+}
+
+// MARK: - SupportMethods
+private extension ActiveViewModel {
     func checkCorrectIndex() -> Bool {
         currentExerciesIndex < exercises.count - 1
     }
@@ -181,18 +208,5 @@ private extension ActiveViewModel {
         let minutes = Int(seconds) / 60
         let remainingSeconds = Int(seconds) % 60
         return String(format: "%d:%02d", minutes, remainingSeconds)
-    }
-}
-
-// MARK: - SAVE CURRENT TIME
-private extension ActiveViewModel {
-    func saveCurrentTime() {
-        guard let startTime = exerciseStartTime else { return }
-        let duration = Date().timeIntervalSince(startTime)
-        let completedExercise = CompletedExercise(
-            name: exercises[currentExerciesIndex].name,
-            duration: duration
-        )
-        completedExercises.completedExercises.append(completedExercise)
     }
 }
